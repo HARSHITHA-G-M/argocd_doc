@@ -1,46 +1,74 @@
-# argocd_doc
-🚀 Application Deployment using Argo CD on AWS EKS
-This project demonstrates deploying a Kubernetes application on Amazon EKS and managing it via Argo CD. The setup uses kubectl, AWS CLI, and Kubernetes YAML files (service.yaml and deployment.yaml) for resource creation.
+# 🚀 Argo CD Deployment on AWS EKS
 
-✅ Project Setup Overview
-Kubernetes Cluster: Provisioned on AWS EKS using the AWS CLI.
+![GitHub Repo Size](https://img.shields.io/github/repo-size/HARSHITHA-G-M/argocd_doc)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/HARSHITHA-G-M/argocd_doc)
+![GitHub Stars](https://img.shields.io/github/stars/HARSHITHA-G-M/argocd_doc?style=social)
+![GitHub Watchers](https://img.shields.io/github/watchers/HARSHITHA-G-M/argocd_doc?style=social)
 
-Argo CD: Installed and running inside the EKS cluster.
+---
 
-Application: Deployed using service.yaml and deployment.yaml files.
+## 📘 Overview
 
-GitOps Workflow: Managed entirely via Argo CD's Web UI and GitHub repo sync.
+This project demonstrates a **GitOps-based deployment pipeline** using **Argo CD** to manage applications on **AWS EKS (Elastic Kubernetes Service)**.
 
-📦 Steps Followed
-Created an EKS cluster using AWS CLI.
+It uses Kubernetes manifests (YAML) for deployment, and Argo CD monitors the Git repository to automatically sync changes into the EKS cluster.
 
-Installed Argo CD inside the cluster using the official manifests.
+---
 
-Accessed Argo CD UI via port-forwarding:
+## 🧰 Tools & Technologies
 
+| Tool            | Purpose                                      |
+|------------------|----------------------------------------------|
+| 🐳 Docker         | Containerization                             |
+| ☸️ Kubernetes     | Container orchestration via EKS              |
+| 🔁 Argo CD        | GitOps-based Continuous Delivery              |
+| ☁️ AWS EKS        | Managed Kubernetes cluster                   |
+| 📄 YAML Manifests | Declarative infrastructure & app specs       |
+
+---
+
+## 📁 Repository Structure
+
+argocd_doc/
+├── prod/ # Environment directory (production)
+│ └── app.yaml # ArgoCD application spec
+├── deploy.yml # Kubernetes Deployment manifest
+└── README.md # Project documentation
+
+
+---
+
+## 🔧 Setup Instructions
+
+### Prerequisites:
+- AWS CLI configured
+- `kubectl` installed and connected to EKS
+- Argo CD installed on EKS
+- GitHub repository created (this one!)
+
+### 🛠️ Steps:
+
+1. **Connect to your EKS cluster**
+```bash
+aws eks --region <region> update-kubeconfig --name <cluster_name>
+
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl apply -f prod/app.yaml
 kubectl port-forward svc/argocd-server -n argocd 8080:443
-Logged in to Argo CD, created a new application pointing to the GitHub repo.
 
-Synced the application, deploying the resources defined in:
+👩‍💻 Author
+Harshitha G M
 
-deployment.yaml
+⭐ Support
+If you found this useful:
 
-service.yaml
+Give it a ⭐
 
-Verified deployments using kubectl:
-kubectl get pods
-kubectl get svc
-📊 Argo CD UI Highlights
-App Health: ✅ Healthy
+📜 License
+This project is licensed under the MIT License.
 
-Sync Status: ✅ Synced to Git commit 90e26ae
+Share it with DevOps learners
 
-Live Tree View: Visualizes all Kubernetes resources — Deployment, Service, ReplicaSet, Pods, etc.
 
-Rollback/History: Easily manage deployment rollbacks.
-
-📂 Repo Structure
-.
-├── deployment.yaml
-├── service.yaml
-└── README.md
